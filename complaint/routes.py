@@ -1,17 +1,22 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Blueprint, render_template, request
+from flask_assets import Environment, Bundle
+from flask_login import current_user
+from flask import current_app as app
+from .models import User
+from flask_login import login_required, current_user
 import requests
 import json
 import hashlib
 
-app = Flask(__name__)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+#app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+main_bp = Blueprint('main_bp', __name__ )
 
-@app.errorhandler(404)
+@main_bp.app_errorhandler((404))
 def page_not_found(error):
     return render_template('404.html'), 404
 
-@app.route('/', methods=['POST', 'GET'])
+@main_bp.route('/', methods=['POST', 'GET'])
+@login_required
 def form():
     if request.method == 'POST':
         data =  request.form.to_dict()
@@ -24,21 +29,22 @@ def form():
 def request_api(data):
     #data["category"] = [{"name":"Selling"}]
     response = requests.post('https://complaint.microapi.dev/v1/complaint/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
-    if response.status_code != 201:
+#    if response.status_code != 201:
 
     ## flash is not working yet
-        flash('Please try again.')
-    else:
-        flash('Complaint has successfully being submitted!!')
+#        flash('Please try again.')
+ #   else:
+  #      flash('Complaint has successfully being submitted!!')
 
 
 
-@app.route('/delete/<_id>', methods=['GET'])
+
+@main_bp.route('/delete/<_id>', methods=['GET'])
 def delete(_id):
     response = requests.delete('https://complaint.microapi.dev/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
     return redirect(url_for("form"))
 
-@app.route('/update/<_id>', methods=["POST"])
+@main_bp.route('/update/<_id>', methods=["POST"])
 def update(_id):
     data = request.form.to_dict()
     data["status"] =  "closed"
