@@ -38,6 +38,14 @@ def delete(_id):
     response = requests.delete('https://complaint.microapi.dev/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
     return redirect(url_for("form"))
 
+@app.route('/update/<_id>', methods=["POST"])
+def update(_id):
+    data = request.form.to_dict()
+    data["status"] =  "closed"
+    response = requests.patch('https://complaint.microapi.dev/v1/complaint/update/'+str(_id), headers={'Content-Type': 'application/json'}, data=json.dumps(data))
+    print(data, response.text)
+    return redirect(url_for("form"))
+
 
 def get_complaints():
     response = requests.get('https://complaint.microapi.dev/v1/complaint/all')

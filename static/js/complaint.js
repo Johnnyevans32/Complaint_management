@@ -1,3 +1,18 @@
+
+$(document).ready(function() {
+    $("#Test").click( function(event){
+        alert(event.target.id);
+        $("#py1").toggle();
+    });
+});
+
+
+
+
+
+
+
+
 //$(document).ready(function() {
 //    $("button.py").each(function(){
 //        $(this).bind('click', function(){
@@ -8,15 +23,15 @@
 //    });
 //});
 
-$(document).ready(function() {
-    $("div.pyy").html('<button class="py" type="button" onclick="Openform()";><ion-icon size="large" name="create"></ion-icon></button>');
-    $(document).on("click", "button.py", function() {
-        alert("Button was clicked"+this.id);
-        $("form.p-3").each( function() {
-            $(this).toggle();
-        });
-    });
-});
+//$(document).ready(function() {
+//    $("div.pyy").html('<button id="Test" class="py" type="button" onclick="Openform()";><ion-icon size="large" name="create"></ion-icon></button>');
+//    $(document).on("click", "button.py", function(e) {
+//        alert("Button was clicked "+ e.id);
+//        $("form.p-3").each( function() {
+//            $(this).toggle();
+//        });
+//    });
+//});
 
 //function Openform()
 //{
