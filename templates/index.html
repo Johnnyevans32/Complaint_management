@@ -65,21 +65,23 @@
                     <h5 class="h6 mb-0">
                       {% block content %}
                         {% for complaint in value['result'] %}
-                          <article class="post">
-                            <header>
-                                <!-- Delete icon -->
-                                <div class="col-xs-5 text-right">
-                                    <a href="{{ url_for('delete', _id=complaint.id) }}" class="btn btn-xs">
-                                        <ion-icon style="color:blue" name="trash-outline"></ion-icon>
-                                    </a>
+                          <a href="{{ url_for('get', _id=complaint.id) }}">
+                            <article class="post">
+                              <header>
+                                  <!-- Delete icon -->
+                                  <div class="col-xs-5 text-right">
+                                      <a href="{{ url_for('delete', _id=complaint.id) }}" class="btn btn-xs">
+                                          <ion-icon style="color:blue" name="trash-outline"></ion-icon>
+                                      </a>
+                                  </div>
+                                <div>
+                                  <h1>{{ complaint["title"] }}</h1>
+                                  <div class="about ">Date <span class="text-muted">{{ complaint["updated_at"][:-16] }}</span></div>
                                 </div>
-                              <div>
-                                <h1>{{ complaint["title"] }}</h1>
-                                <div class="about ">Date <span class="text-muted">{{ complaint["updated_at"][:-16] }}</span></div>
-                              </div>
-                            </header>
-                            <p class="body">{{ complaint["message"] }}</p>
-                          </article>
+                              </header>
+                              <p class="body">{{ complaint["message"] }}</p>
+                            </article>
+                          </a> 
                           {% if not loop.last %}
                             <hr>
                           {% endif %}
