@@ -76,7 +76,7 @@
                                         {{ complaint.status }}
                                     </div>
                                 {% elif complaint.status == "resolved" %}
-                                    <div class="h6 badge badge-success">
+                                <div  class="h6 badge badge-primary">
                                         {{ complaint.status  }}
                                     </div>
                                 {% endif %}
@@ -144,6 +144,12 @@
                                 <label class="h6 mb-0">User ID</label>
                                 <input type="number" name="user_id" placeholder="User Id" class="form-control rounded-lg " required>
                               </div>
+                              {% for message in get_flashed_messages() %}
+                                <div class="alert alert-warning">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                               <div class="form-group">       
                                 <input type="submit" value="Submit" class="btn btn-primary">
                               </div>
