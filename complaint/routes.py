@@ -65,7 +65,7 @@ def comments(_id):
     all_comments = response.json()
     return render_template("comments.html", value=all_comments)
 
-@main_bp.route('/new_comment/<_id>', methods=['GET'])
+@main_bp.route('/new_comment/<_id>', methods=['POST', 'GET'])
 def new_comment(_id):
     data = request.form.to_dict()
     response = requests.post('https://complaint.microapi.dev//v1/'+str(_id)+'/comment/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
