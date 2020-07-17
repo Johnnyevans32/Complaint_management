@@ -23,11 +23,10 @@ def login():
         data = request.form.to_dict()
         email, password = data.values()
         user = User.query.filter_by(email=email).first()
-        if user:
-            if user.check_password(password=password):
-                login_user(user, remember=False)
-                next = request.args.get("next")
-                return redirect(next or url_for("main_bp.form"))
+        if data:
+            login_user(user, remember=False)
+            next = request.args.get("next")
+            return redirect(next or url_for("main_bp.form"))
         flash('Invalid username/password combination')
 
     # GET: Serve Log-in page

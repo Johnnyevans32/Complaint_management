@@ -15,8 +15,7 @@ main_bp = Blueprint('main_bp', __name__ )
 def page_not_found(error):
     return render_template('404.html'), 404
 
-@main_bp.route('/manage', methods=['POST', 'GET'])
-@login_required
+@main_bp.route('/', methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
         data =  request.form.to_dict()
@@ -35,6 +34,7 @@ def request_api(data):
         flash('Please try again.')
     else:
         flash('Complaint has successfully being submitted!!')
+        return render_template("index.html", value=get_complaints())
 
 
 
@@ -57,3 +57,20 @@ def get_complaints():
     response = requests.get('https://complaint.microapi.dev/v1/complaint/all')
     all_complaints = response.json()
     return all_complaints
+
+@main_bp.route('/comments/<_id>', methods=['GET'])
+def comments(_id):
+    response = requests.get('https://complaint.microapi.dev/v1/'+str(_id)+'/comment/all', headers={'Content-Type': 'application/json'})
+    all_comments = response.json()
+    return render_template("comments.html", value=all_comments)
+
+@main_bp.route('/new_comment/<_id>', methods=['GET'])
+def new_comment(_id):
+    data = request.form.to_dict()
+    response = requests.post('https://complaint.microapi.dev//v1/'+str(_id)+'/comment/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
+    if response.status_code != 201:
+
+    ## flash is not working yet
+        flash('Please try again.')
+    else:
+        flash('Comment has successfully being submitted!!')
