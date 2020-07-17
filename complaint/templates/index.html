@@ -62,42 +62,40 @@
                     <h3 class="h6 text-uppercase mb-0">COMPLAINTS MANAGEMENT MICROSERVICE TESTING</h3>
                   </div>
                   <div class="card-body">
-                    <h5 class="h6 mb-0">
-                      {% block content %}
-                        {% for complaint in value['result'] %}
-                          <a href="{{ url_for('main_bp.comments', _id=complaint.id) }}">
-                            <article class="post">
-                              <div class="text-right">
-                                  <a href="{{ url_for('main_bp.delete', _id=complaint.id) }}">
-                                    <ion-icon style="color:blue"; name="trash-sharp"></ion-icon>
-                                  </a>
-                                   {% if complaint.status == "new" %}
-                                    <span class="h6 badge badge-success">
-                                      {{ complaint.status  }}
-                                    </span> 
-                                  {% elif complaint.status == "closed" %}
-                                    <span class="h6 badge badge-danger">
-                                      {{ complaint.status  }}
-                                    </span> 
-                                  {% elif complaint.status == "resolved" %}
-                                    <span class="h6 badge badge-primary">
-                                      {{ complaint.status  }}
-                                    </span>    
-                                  {% endif %}
-                              </div>
-                              <div>
-                                <h1>{{ complaint["title"] }}</h1>
-                                <div class="about ">Date <span class="text-muted">{{ complaint["updated_at"][:-16] }}</span></div>
-                              </div>
-                              <p class="body">{{ complaint["message"] }}</p>
-                            </article>
-                          </a>
-                          {% if not loop.last %}
-                            <hr>
-                          {% endif %}
-                        {% endfor %}
-                      {% endblock %}
-                    </h5>
+                    {% block content %}
+                      {% for complaint in value['result'] %}
+                        <article class="post">
+                          <div class="text-right">
+                            <a href="{{ url_for('main_bp.delete', _id=complaint.id) }}">
+                              <ion-icon style="color:blue"; name="trash-sharp"></ion-icon>
+                            </a>
+                             {% if complaint.status == "new" %}
+                              <span class="h6 badge badge-primary">
+                                {{ complaint.status  }}
+                              </span> 
+                            {% elif complaint.status == "closed" %}
+                              <span class="h6 badge badge-danger">
+                                {{ complaint.status  }}
+                              </span> 
+                            {% elif complaint.status == "resolved" %}
+                              <span class="h6 badge badge-success">
+                                {{ complaint.status  }}
+                              </span>    
+                            {% endif %}
+                          </div>
+                          <div>
+                            <a href="{{ url_for('main_bp.comments', _id=complaint.id) }}">
+                              <h4>{{ complaint["title"] }}</h4>
+                              <div class="about ">Date - <span class="text-muted">{{ complaint["updated_at"][:-16] }}</span></div>
+                            </a>
+                          </div>
+                          <p class="body">{{ complaint["message"] }}</p>
+                        </article>
+                        {% if not loop.last %}
+                          <hr>
+                        {% endif %}
+                      {% endfor %}
+                    {% endblock %}
                     <br>
                     <br>
                     <button type="button" data-toggle="modal" data-target="#myModal" class="btn" style="text-align: center;background-color:#c94b4b;">Fill Out a Complaint Form</button>

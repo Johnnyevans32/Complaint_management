@@ -62,18 +62,16 @@
                     <h3 class="h6 text-uppercase mb-0">COMPLAINTS MANAGEMENT MICROSERVICE TESTING</h3>
                   </div>
                   <div class="card-body">
-                    <h5 class="h6 mb-0">
-                      {% block content %}
-                        {% for comments in value['result'] %}
-                            <article class="post">
-                              <p class="body">{{ comments["message"] }} <br>Date <span class="text-muted">{{ comments["updated_at"][:-16] }}</span></p>
-                            </article>
-                          {% if not loop.last %}
-                            <hr>
-                          {% endif %}
-                        {% endfor %}
-                      {% endblock %}
-                    </h5>
+                    {% block content %}
+                      {% for comments in value['result'] %}
+                        <article class="post">
+                          <p class="body">{{ comments["message"] }} <br>Date - <span class="text-muted">{{ comments["updated_at"][:-16] }}</span></p>
+                        </article>  
+                        {% if not loop.last %}
+                          <hr>
+                        {% endif %}
+                      {% endfor %}
+                    {% endblock %}
                     <br>
                     <br>
                   <div class="text-center">

@@ -42,6 +42,7 @@ def request_api(data):
 @main_bp.route('/delete/<_id>', methods=['GET'])
 def delete(_id):
     response = requests.delete('https://complaint.microapi.dev/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
+    flash('Complaint Deleted!')
     return redirect(url_for("main_bp.form"))
 
 @main_bp.route('/update/<_id>', methods=["POST"])
