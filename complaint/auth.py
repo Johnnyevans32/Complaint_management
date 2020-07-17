@@ -9,19 +9,19 @@ from . import login_manager
 auth =  Blueprint('auth_bp' , __name__)
 
 
-@auth.route("/login", methods=["GET", "POST"])
+@auth.route("/", methods=["GET", "POST"])
 def login():
 
     """User login page."""
+
     # Bypass Login screen if user is logged in
     if current_user.is_authenticated:
         return redirect(url_for('main_bp.form'))
-        #return "Logged in"
+
     # POST: Create user and redirect them to the app
     if request.method == 'POST':
         data = request.form.to_dict()
         email, password = data.values()
-        #return email
         user = User.query.filter_by(email=email).first()
         if user:
             if user.check_password(password=password):
@@ -29,6 +29,7 @@ def login():
                 next = request.args.get("next")
                 return redirect(next or url_for("main_bp.form"))
         flash('Invalid username/password combination')
+
     # GET: Serve Log-in page
     return render_template("login.html")
 
@@ -36,6 +37,7 @@ def login():
 def signup():
 
     """User sign-up page."""
+
     # POST: Sign user in
     if request.method == 'POST':
         name = request.form.get('name')
@@ -52,6 +54,7 @@ def signup():
             db.session.commit()
             login_user(user)
             return redirect(url_for("main_bp.index"))
+
         flash('A user already exists with that email address.')
     # GET: Serve Sign-up page
     return render_template("signup.html")
