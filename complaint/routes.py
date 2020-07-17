@@ -63,7 +63,6 @@ def get_complaints():
 def comments(_id):
     response = requests.get('https://complaint.microapi.dev/v1/'+str(_id)+'/comment/all', headers={'Content-Type': 'application/json'})
     all_comments = response.json()
-    new_comment(_id)
     return render_template("comments.html", value=all_comments)
 
 @main_bp.route('/new_comment/<_id>', methods=['GET'])
