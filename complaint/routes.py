@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_assets import Environment, Bundle
-from flask_login import current_user
 from flask import current_app as app
-from .models import User
-from flask_login import login_required, current_user
 import requests
 import json
 import hashlib
