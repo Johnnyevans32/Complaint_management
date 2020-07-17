@@ -69,9 +69,7 @@ def comments(_id):
 def new_comment(_id):
     data = request.form.to_dict()
     response = requests.post('https://complaint.microapi.dev/v1/'+str(_id)+'/comment/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
-    if response.status_code != 201:
-
-    ## flash is not working yet
-        flash('Please try again.')
-    else:
+    if response.status_code == 201:
         flash('Comment has successfully being submitted!!')
+    else:
+        flash('Please try again.')
