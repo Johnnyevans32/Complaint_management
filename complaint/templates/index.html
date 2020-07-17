@@ -84,7 +84,7 @@
                             {% endif %}
                           </div>
                           <div>
-                            <a href="{{ url_for('main_bp.comments', _id=complaint.id) }}">
+                            <a href="{{ url_for('main_bp.comments', _id=complaint.id) }}" style="text-decoration: none;">
                               <h4>{{ complaint["title"] }}</h4>
                               <div class="about ">Date - <span class="text-muted">{{ complaint["updated_at"][:-16] }}</span></div>
                             </a>
