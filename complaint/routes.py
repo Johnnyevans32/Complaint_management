@@ -22,8 +22,11 @@ def form():
         request_api(data)
         texts = get_complaints()
         return redirect(url_for("main_bp.form"))
-    return render_template("comments.html", value=get_complaints())
+    return render_template("index.html", value=get_complaints())
 
+@main_bp.route('/comment', methods=['POST', 'GET'])
+def comm(comms=None):
+    return render_template("comments.html",value=comms)
 
 def request_api(data):
     #data["category"] = [{"name":"Selling"}]
@@ -40,7 +43,7 @@ def request_api(data):
 @main_bp.route('/delete/<_id>', methods=['GET'])
 def delete(_id):
     response = requests.delete('https://complaint-microapi.herokuapp.com/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
-    flash('Complaint Deleted!')
+    flash(u'Complaint Deleted!', 'message')
     return redirect(url_for("main_bp.form"))
 
 @main_bp.route('/update/<_id>', methods=["POST"])
@@ -61,7 +64,8 @@ def get_complaints():
 def comments(_id):
     response = requests.get('https://complaint-microapi.herokuapp.com/v1/'+str(_id)+'/comment/all', headers={'Content-Type': 'application/json'})
     all_comments = response.json()
-    return render_template("comments.html", value=all_comments)
+    comm(all_comments)
+    return redirect(url_for("main_bp.comm"))
 
 @main_bp.route('/new_comment/<_id>', methods=['POST', 'GET'])
 def new_comment(_id):
