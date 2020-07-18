@@ -37,8 +37,6 @@ def request_api(data):
         return render_template("index.html", value=get_complaints())
 
 
-
-
 @main_bp.route('/delete/<_id>', methods=['GET'])
 def delete(_id):
     response = requests.delete('https://complaint-microapi.herokuapp.com/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
