@@ -22,18 +22,18 @@ def form():
         request_api(data)
         texts = get_complaints()
         return redirect(url_for("main_bp.form"))
-    return render_template("index.html", value=get_complaints())
+    return render_template("comments.html", value=get_complaints())
 
 
 def request_api(data):
     #data["category"] = [{"name":"Selling"}]
-    response = requests.post('https://complaint.microapi.dev/v1/complaint/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
+    response = requests.post('https://complaint-microapi.herokuapp.com/v1/complaint/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
     if response.status_code != 201:
 
     ## flash is not working yet
-        flash('Please try again.')
+        flash(u'Please try again.', 'error')
     else:
-        flash('Complaint has successfully being submitted!!')
+        flash(u'Complaint has successfully being submitted!!', 'message')
         return render_template("index.html", value=get_complaints())
 
 
@@ -41,7 +41,7 @@ def request_api(data):
 
 @main_bp.route('/delete/<_id>', methods=['GET'])
 def delete(_id):
-    response = requests.delete('https://complaint.microapi.dev/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
+    response = requests.delete('https://complaint-microapi.herokuapp.com/v1/complaint/delete/'+str(_id), headers={'Content-Type': 'application/json'})
     flash('Complaint Deleted!')
     return redirect(url_for("main_bp.form"))
 
@@ -49,27 +49,27 @@ def delete(_id):
 def update(_id):
     data = request.form.to_dict()
     data["status"] =  "closed"
-    response = requests.patch('https://complaint.microapi.dev/v1/complaint/update/'+str(_id), headers={'Content-Type': 'application/json'}, data=json.dumps(data))
+    response = requests.patch('https://complaint-microapi.herokuapp.com/v1/complaint/update/'+str(_id), headers={'Content-Type': 'application/json'}, data=json.dumps(data))
     print(data, response.text)
     return redirect(url_for("main_bp.form"))
 
 
 def get_complaints():
-    response = requests.get('https://complaint.microapi.dev/v1/complaint/all')
+    response = requests.get('https://complaint-microapi.herokuapp.com/v1/complaint/all')
     all_complaints = response.json()
     return all_complaints
 
 @main_bp.route('/comments/<_id>', methods=['GET'])
 def comments(_id):
-    response = requests.get('https://complaint.microapi.dev/v1/'+str(_id)+'/comment/all', headers={'Content-Type': 'application/json'})
+    response = requests.get('https://complaint-microapi.herokuapp.com/v1/'+str(_id)+'/comment/all', headers={'Content-Type': 'application/json'})
     all_comments = response.json()
     return render_template("comments.html", value=all_comments)
 
 @main_bp.route('/new_comment/<_id>', methods=['POST', 'GET'])
 def new_comment(_id):
     data = request.form.to_dict()
-    response = requests.post('https://complaint.microapi.dev/v1/'+str(_id)+'/comment/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
+    response = requests.post('https://complaint-microapi.herokuapp.com/v1/'+str(_id)+'/comment/new', headers={'Content-Type': 'application/json'}, data=json.dumps(data))
     if response.status_code == 201:
-        flash('Comment has successfully being submitted!!')
+        flash(u'Comment has successfully being submitted!!', 'message')
     else:
-        flash('Please try again.')
+        flash(u'Please try again.', 'error')
